@@ -1,8 +1,8 @@
 namespace CodeFirstWithMigrations.Migrations
 {
-    using System;
+
     using System.Data.Entity.Migrations;
-    
+
     public partial class AddNewTable : DbMigration
     {
         public override void Up()
@@ -10,27 +10,27 @@ namespace CodeFirstWithMigrations.Migrations
             CreateTable(
                 "dbo.Partners",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Name = c.String(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.PartnerTeams",
                 c => new
-                    {
-                        Partner_Id = c.Int(nullable: false),
-                        Team_Id = c.Int(nullable: false),
-                    })
+                {
+                    Partner_Id = c.Int(nullable: false),
+                    Team_Id = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => new { t.Partner_Id, t.Team_Id })
                 .ForeignKey("dbo.Partners", t => t.Partner_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Teams", t => t.Team_Id, cascadeDelete: true)
                 .Index(t => t.Partner_Id)
                 .Index(t => t.Team_Id);
-            
+
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.PartnerTeams", "Team_Id", "dbo.Teams");
